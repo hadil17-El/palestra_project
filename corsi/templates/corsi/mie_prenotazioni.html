@@ -6,6 +6,17 @@
 <body>
 
 <h1>Le mie prenotazioni</h1>
+{% if messages %}
+    {% for message in messages %}
+        <p style="
+            padding:10px;
+            border:1px solid #ccc;
+            background-color:#f5f5f5;
+        ">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}
 
 {% for prenotazione in prenotazioni %}
     <div>

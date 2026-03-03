@@ -11,6 +11,7 @@ urlpatterns = [
     path('prenota/<int:corso_id>/', views.prenota_corso, name='prenota_corso'),
     path('mie-prenotazioni/', views.mie_prenotazioni, name='mie_prenotazioni'),
     path('annulla/<int:prenotazione_id>/', views.annulla_prenotazione, name='annulla_prenotazione'),
+    path('profilo/', views.modifica_profilo, name='modifica_profilo'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

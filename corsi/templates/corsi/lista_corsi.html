@@ -6,17 +6,41 @@
 <body>
 
     <h1>Corsi disponibili</h1>
+    {% if messages %}
+    {% for message in messages %}
+        <p style="
+            padding:10px;
+            border:1px solid #ccc;
+            background-color:#f5f5f5;
+        ">
+            {{ message }}
+        </p>
+    {% endfor %}
+{% endif %}
 
     {% if user.is_authenticated %}
         <p>
-            Benvenuta {{ user.username }} |
-            <a href="{% url 'mie_prenotazioni' %}">Le mie prenotazioni</a> |
-            <a href="/accounts/logout/">Logout</a>
+           Benvenuta {{ user.username }} |
+<a href="{% url 'modifica_profilo' %}">Profilo</a> |
+<a href="{% url 'mie_prenotazioni' %}">Le mie prenotazioni</a> |
+<a href="/accounts/logout/">Logout</a>
         </p>
     {% else %}
         <a href="/accounts/login/">Login</a>
     {% endif %}
+<form method="get">
+    <label>Prezzo massimo:</label>
+    <input type="number" name="prezzo_max" value="{{ request.GET.prezzo_max }}">
 
+    <label>Ordina per:</label>
+    <select name="ordine">
+        <option value="">--</option>
+        <option value="prezzo">Prezzo</option>
+        <option value="data">Data</option>
+    </select>
+
+    <button type="submit">Filtra</button>
+</form>
     <hr>
 
     {% for corso in corsi %}

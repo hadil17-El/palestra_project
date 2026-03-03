@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Il mio profilo</title>
+</head>
+<body>
+
+<h1>Il mio profilo</h1>
+
+{% if user.profile.immagine_profilo %}
+    <img src="{{ user.profile.immagine_profilo.url }}" width="150">
+{% endif %}
+
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <input type="file" name="immagine_profilo">
+    <button type="submit">Aggiorna</button>
+</form>
+
+<a href="/">Torna ai corsi</a>
+
+</body>
+</html>
