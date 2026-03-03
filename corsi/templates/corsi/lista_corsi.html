@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Lista Corsi</title>
+</head>
+<body>
+
+    <h1>Corsi disponibili</h1>
+
+    {% if user.is_authenticated %}
+        <p>
+            Benvenuta {{ user.username }} |
+            <a href="{% url 'mie_prenotazioni' %}">Le mie prenotazioni</a> |
+            <a href="/accounts/logout/">Logout</a>
+        </p>
+    {% else %}
+        <a href="/accounts/login/">Login</a>
+    {% endif %}
+
+    <hr>
+
+    {% for corso in corsi %}
+        <div>
+            <h2>{{ corso.titolo }}</h2>
+            <p>{{ corso.descrizione }}</p>
+            <p>Data: {{ corso.data }}</p>
+            <p>Prezzo: {{ corso.prezzo }} €</p>
+            <p>Posti disponibili: {{ corso.posti_disponibili }}</p>
+
+            {% if corso.immagine %}
+                <img src="{{ corso.immagine.url }}" width="200">
+            {% endif %}
+{% if user.is_authenticated %}
+
+    {% if corso.posti_disponibili == 0 %}
+        <p style="color:red;">Posti esauriti</p>
+
+    {% elif corso.id in corsi_prenotati %}
+        <p style="color:green;">Sei già prenotata</p>
+
+    {% else %}
+        <a href="{% url 'prenota_corso' corso.id %}">Prenota</a>
+    {% endif %}
+
+{% else %}
+    <p>Devi fare <a href="/accounts/login/">login</a> per prenotare</p>
+{% endif %}
+
+            <hr>
+        </div>
+
+    {% empty %}
+        <p>Nessun corso disponibile.</p>
+    {% endfor %}
+
+</body>
+</html>

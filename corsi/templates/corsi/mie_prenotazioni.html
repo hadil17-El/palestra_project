@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Le mie prenotazioni</title>
+</head>
+<body>
+
+<h1>Le mie prenotazioni</h1>
+
+{% for prenotazione in prenotazioni %}
+    <div>
+        <h3>{{ prenotazione.corso.titolo }}</h3>
+        <p>Data corso: {{ prenotazione.corso.data }}</p>
+        <p>Prenotato il: {{ prenotazione.data_prenotazione }}</p>
+        <a href="{% url 'annulla_prenotazione' prenotazione.id %}">
+    Annulla prenotazione
+        </a>
+        <hr>
+    </div>
+{% empty %}
+    <p>Non hai ancora prenotazioni.</p>
+{% endfor %}
+
+<a href="/">Torna ai corsi</a>
+
+</body>
+</html>
