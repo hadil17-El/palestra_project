@@ -1,6 +1,5 @@
 from django.contrib import admin
-from .models import Corso, Prenotazione
-
+from .models import Corso, Prenotazione, Profile
 
 @admin.register(Corso)
 class CorsoAdmin(admin.ModelAdmin):
@@ -13,3 +12,5 @@ class CorsoAdmin(admin.ModelAdmin):
 class PrenotazioneAdmin(admin.ModelAdmin):
     list_display = ('utente', 'corso', 'data_prenotazione', 'attiva')
     list_filter = ('attiva',)
+
+admin.site.register(Profile)

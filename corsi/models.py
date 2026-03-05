@@ -19,7 +19,9 @@ class Prenotazione(models.Model):
     utente = models.ForeignKey(User, on_delete=models.CASCADE)
     corso = models.ForeignKey(Corso, on_delete=models.CASCADE)
     data_prenotazione = models.DateTimeField(auto_now_add=True)
+
     attiva = models.BooleanField(default=True)
+    in_lista_attesa = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.utente.username} - {self.corso.titolo}"
@@ -42,3 +44,10 @@ class Profile(models.Model):
 def crea_profile(sender, instance, created, **kwargs):
     if created:
         Profile.objects.create(user=instance)
+
+
+#hadil17
+#Had_jed17
+
+##hadil(superuser)
+###hadil

@@ -23,7 +23,10 @@
            Benvenuta {{ user.username }} |
 <a href="{% url 'modifica_profilo' %}">Profilo</a> |
 <a href="{% url 'mie_prenotazioni' %}">Le mie prenotazioni</a> |
-<a href="/accounts/logout/">Logout</a>
+<form method="post" action="{% url 'logout' %}" style="display:inline;">
+    {% csrf_token %}
+    <button type="submit">Logout</button>
+</form>
         </p>
     {% else %}
         <a href="/accounts/login/">Login</a>

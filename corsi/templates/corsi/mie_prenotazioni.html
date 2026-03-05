@@ -18,18 +18,57 @@
     {% endfor %}
 {% endif %}
 
-{% for prenotazione in prenotazioni %}
+
+{% for prenotazione in prenotazioni_attive %}
     <div>
         <h3>{{ prenotazione.corso.titolo }}</h3>
         <p>Data corso: {{ prenotazione.corso.data }}</p>
         <p>Prenotato il: {{ prenotazione.data_prenotazione }}</p>
+
         <a href="{% url 'annulla_prenotazione' prenotazione.id %}">
-    Annulla prenotazione
+            Annulla prenotazione
         </a>
+
         <hr>
     </div>
 {% empty %}
     <p>Non hai ancora prenotazioni.</p>
+{% endfor %}
+<h2>Lista d'attesa</h2>
+
+{% for prenotazione in prenotazioni_lista_attesa %}
+
+<div>
+    <p><strong>{{ prenotazione.corso.titolo }}</strong></p>
+    <p>Data: {{ prenotazione.corso.data }}</p>
+
+    <p style="color:orange;">
+        In lista d’attesa (posizione {{ prenotazione.posizione_lista }})
+    </p>
+
+    <hr>
+</div>
+
+{% empty %}
+<p>Non sei in lista d’attesa.</p>
+{% endfor %}
+
+
+<h2>Storico prenotazioni</h2>
+
+{% for prenotazione in prenotazioni_storico %}
+
+<div>
+    <p><strong>{{ prenotazione.corso.titolo }}</strong></p>
+    <p>Data: {{ prenotazione.corso.data }}</p>
+
+    <p style="color:gray;">Prenotazione annullata</p>
+
+    <hr>
+</div>
+
+{% empty %}
+<p>Nessuna prenotazione nello storico.</p>
 {% endfor %}
 
 <a href="/">Torna ai corsi</a>
