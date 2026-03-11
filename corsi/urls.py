@@ -2,6 +2,7 @@ from django.urls import path
 from . import views
 from django.urls import path, include
 from django.conf import settings
+from django.contrib.auth.views import LogoutView
 from django.conf.urls.static import static
 
 urlpatterns = [
@@ -12,6 +13,7 @@ urlpatterns = [
     path('mie-prenotazioni/', views.mie_prenotazioni, name='mie_prenotazioni'),
     path('annulla/<int:prenotazione_id>/', views.annulla_prenotazione, name='annulla_prenotazione'),
     path('profilo/', views.modifica_profilo, name='modifica_profilo'),
+    path('logout/', LogoutView.as_view(next_page='/'), name='logout'),
 ]
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

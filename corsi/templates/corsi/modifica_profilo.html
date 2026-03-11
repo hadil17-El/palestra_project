@@ -2,22 +2,63 @@
 <html>
 <head>
     <title>Il mio profilo</title>
+
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
 
-<h1>Il mio profilo</h1>
+<body class="bg-light">
 
-{% if user.profile.immagine_profilo %}
-    <img src="{{ user.profile.immagine_profilo.url }}" width="150">
+<div class="container">
+
+<div class="row justify-content-center">
+
+<div class="col-md-6">
+
+<div class="card mt-5 shadow">
+
+<div class="card-body text-center">
+
+<h3 class="mb-4">Il mio profilo</h3>
+
+{% if user.profilo.immagine_profilo %}
+<img src="{{ user.profilo.immagine_profilo.url }}"
+     class="rounded-circle mb-3"
+     width="150">
+{% else %}
+<p>Nessuna immagine profilo</p>
 {% endif %}
 
 <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    <input type="file" name="immagine_profilo">
-    <button type="submit">Aggiorna</button>
+
+{% csrf_token %}
+
+<div class="mb-3">
+{{ form.immagine_profilo.label_tag }}
+{{ form.immagine_profilo }}
+</div>
+
+<button type="submit" class="btn btn-success w-100">
+Aggiorna immagine
+</button>
+
 </form>
 
-<a href="/">Torna ai corsi</a>
+<hr>
+
+<a href="/" class="btn btn-primary">
+Torna ai corsi
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
 
 </body>
 </html>

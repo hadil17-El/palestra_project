@@ -6,10 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from .models import Corso, Prenotazione
 from django.contrib import messages
-from .models import Profile
+from .models import Profilo
 from django.contrib.auth import logout
 from django.shortcuts import redirect
+from .forms import ProfiloForm
+from .models import Profilo
 from django.contrib.auth.decorators import login_required
+
 
 def lista_corsi(request):
     corsi = Corso.objects.all()
@@ -19,14 +22,27 @@ def lista_corsi(request):
     if prezzo_max and prezzo_max.isdigit():
         corsi = corsi.filter(prezzo__lte=prezzo_max)
 
-    # Ordinamento
+    # filtro tipologia
+    tipologia = request.GET.get('tipologia')
+    if tipologia:
+        corsi = corsi.filter(tipologia__icontains=tipologia)
+
+    # filtro data
+    data = request.GET.get('data')
+    if data:
+        corsi = corsi.filter(data__date=data)
+
+    # ordinamento
     ordine = request.GET.get('ordine')
-    if ordine == 'prezzo':
+
+    if ordine == "prezzo":
         corsi = corsi.order_by('prezzo')
-    elif ordine == 'data':
+
+    elif ordine == "data":
         corsi = corsi.order_by('data')
 
     corsi_prenotati = []
+
     if request.user.is_authenticated:
         corsi_prenotati = Prenotazione.objects.filter(
             utente=request.user,
@@ -170,17 +186,35 @@ def annulla_prenotazione(request, prenotazione_id):
 
 @login_required
 def modifica_profilo(request):
-    profile = request.user.profile
+   
+    profilo, created = Profilo.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
-        if 'immagine_profilo' in request.FILES:
-            profile.immagine_profilo = request.FILES['immagine_profilo']
-            profile.save()
-            messages.success(request, "Immagine profilo aggiornata!")
+        form = ProfiloForm(request.POST, request.FILES, instance=profilo)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Profilo aggiornato con successo!")
+            return redirect('modifica_profilo')
+    else:
+        form = ProfiloForm(instance=profilo)
 
-        return redirect('modifica_profilo')
+    return render(request, 'corsi/modifica_profilo.html', {'form': form, 'profilo': profilo})
+@login_required
+def profilo(request):
 
-    return render(request, 'corsi/modifica_profilo.html')
+    profilo, created = Profilo.objects.get_or_create(user=request.user)
+
+    if request.method == 'POST':
+        form = ProfiloForm(request.POST, request.FILES, instance=profilo)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profilo')
+
+    else:
+        form = ProfiloForm(instance=profilo)
+
+    return render(request, 'profilo.html', {'form': form, 'profilo': profilo})
 
 @login_required
 def logout_view(request):

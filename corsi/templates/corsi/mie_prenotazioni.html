@@ -2,76 +2,148 @@
 <html>
 <head>
     <title>Le mie prenotazioni</title>
-</head>
-<body>
 
-<h1>Le mie prenotazioni</h1>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="container mt-4">
+
+<h1 class="mb-4">Le mie prenotazioni</h1>
+
 {% if messages %}
     {% for message in messages %}
-        <p style="
-            padding:10px;
-            border:1px solid #ccc;
-            background-color:#f5f5f5;
-        ">
+        <div class="alert alert-info">
             {{ message }}
-        </p>
+        </div>
     {% endfor %}
 {% endif %}
 
+<h2>Prenotazioni attive</h2>
+
+<div class="row">
 
 {% for prenotazione in prenotazioni_attive %}
-    <div>
-        <h3>{{ prenotazione.corso.titolo }}</h3>
-        <p>Data corso: {{ prenotazione.corso.data }}</p>
-        <p>Prenotato il: {{ prenotazione.data_prenotazione }}</p>
 
-        <a href="{% url 'annulla_prenotazione' prenotazione.id %}">
-            Annulla prenotazione
-        </a>
+<div class="col-md-4 mb-4">
 
-        <hr>
-    </div>
-{% empty %}
-    <p>Non hai ancora prenotazioni.</p>
-{% endfor %}
-<h2>Lista d'attesa</h2>
+<div class="card">
 
-{% for prenotazione in prenotazioni_lista_attesa %}
+<div class="card-body">
 
-<div>
-    <p><strong>{{ prenotazione.corso.titolo }}</strong></p>
-    <p>Data: {{ prenotazione.corso.data }}</p>
+<h5 class="card-title">{{ prenotazione.corso.titolo }}</h5>
 
-    <p style="color:orange;">
-        In lista d’attesa (posizione {{ prenotazione.posizione_lista }})
-    </p>
+<p class="card-text">
+<strong>Data corso:</strong> {{ prenotazione.corso.data }}
+</p>
 
-    <hr>
+<p>
+<strong>Prenotato il:</strong> {{ prenotazione.data_prenotazione }}
+</p>
+
+<a href="{% url 'annulla_prenotazione' prenotazione.id %}"
+   class="btn btn-danger btn-sm">
+   Annulla prenotazione
+</a>
+
+</div>
+
+</div>
+
 </div>
 
 {% empty %}
-<p>Non sei in lista d’attesa.</p>
+
+<p>Non hai ancora prenotazioni.</p>
+
 {% endfor %}
+
+</div>
+
+
+<hr class="my-5">
+
+
+<h2>Lista d'attesa</h2>
+
+<div class="row">
+
+{% for prenotazione in prenotazioni_lista_attesa %}
+
+<div class="col-md-4 mb-4">
+
+<div class="card border-warning">
+
+<div class="card-body">
+
+<h5 class="card-title">{{ prenotazione.corso.titolo }}</h5>
+
+<p>
+<strong>Data:</strong> {{ prenotazione.corso.data }}
+</p>
+
+<span class="badge bg-warning text-dark">
+In lista d’attesa (posizione {{ prenotazione.posizione_lista }})
+</span>
+
+</div>
+
+</div>
+
+</div>
+
+{% empty %}
+
+<p>Non sei in lista d’attesa.</p>
+
+{% endfor %}
+
+</div>
+
+
+<hr class="my-5">
 
 
 <h2>Storico prenotazioni</h2>
 
+<div class="row">
+
 {% for prenotazione in prenotazioni_storico %}
 
-<div>
-    <p><strong>{{ prenotazione.corso.titolo }}</strong></p>
-    <p>Data: {{ prenotazione.corso.data }}</p>
+<div class="col-md-4 mb-4">
 
-    <p style="color:gray;">Prenotazione annullata</p>
+<div class="card border-secondary">
 
-    <hr>
+<div class="card-body">
+
+<h5 class="card-title">{{ prenotazione.corso.titolo }}</h5>
+
+<p>
+<strong>Data:</strong> {{ prenotazione.corso.data }}
+</p>
+
+<span class="badge bg-secondary">
+Prenotazione annullata
+</span>
+
+</div>
+
+</div>
+
 </div>
 
 {% empty %}
+
 <p>Nessuna prenotazione nello storico.</p>
+
 {% endfor %}
 
-<a href="/">Torna ai corsi</a>
+</div>
+
+
+<a href="/" class="btn btn-primary mt-3">
+Torna ai corsi
+</a>
 
 </body>
 </html>

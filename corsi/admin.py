@@ -1,5 +1,6 @@
 from django.contrib import admin
-from .models import Corso, Prenotazione, Profile
+from .models import Corso, Prenotazione, Profilo
+from django.utils.html import format_html
 
 @admin.register(Corso)
 class CorsoAdmin(admin.ModelAdmin):
@@ -13,4 +14,9 @@ class PrenotazioneAdmin(admin.ModelAdmin):
     list_display = ('utente', 'corso', 'data_prenotazione', 'attiva')
     list_filter = ('attiva',)
 
-admin.site.register(Profile)
+@admin.register(Profilo)
+class ProfiloAdmin(admin.ModelAdmin):
+    list_display = ('user', 'anteprima')
+
+    def anteprima(self, obj):
+        return format_html('<img src="{}" width="50" />', obj.immagine_profilo.url)
