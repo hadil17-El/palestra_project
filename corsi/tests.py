@@ -86,10 +86,11 @@ class AnnullaPrenotazioneTest(TestCase):
 
         self.client.login(username="testuser", password="12345")
 
+
         response = self.client.get(
             reverse('annulla_prenotazione', args=[self.prenotazione.id])
         )
-
+        self.assertEqual(response.status_code, 302)
         self.prenotazione.refresh_from_db()
 
         self.assertFalse(self.prenotazione.attiva)

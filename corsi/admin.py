@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Corso, Prenotazione, Profilo
+from .models import Corso, Prenotazione, Profile
 from django.utils.html import format_html
 
 @admin.register(Corso)
@@ -14,7 +14,7 @@ class PrenotazioneAdmin(admin.ModelAdmin):
     list_display = ('utente', 'corso', 'data_prenotazione', 'attiva')
     list_filter = ('attiva',)
 
-@admin.register(Profilo)
+@admin.register(Profile)
 class ProfiloAdmin(admin.ModelAdmin):
     list_display = ('user', 'anteprima')
 

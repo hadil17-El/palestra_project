@@ -6,11 +6,11 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import get_object_or_404, redirect
 from .models import Corso, Prenotazione
 from django.contrib import messages
-from .models import Profilo
+from .models import Profile
 from django.contrib.auth import logout
 from django.shortcuts import redirect
 from .forms import ProfiloForm
-from .models import Profilo
+
 from django.contrib.auth.decorators import login_required
 
 
@@ -42,7 +42,7 @@ def lista_corsi(request):
         corsi = corsi.order_by('data')
 
     corsi_prenotati = []
-
+#se utente è loggato ,restituisce la lista di corsi prenotati
     if request.user.is_authenticated:
         corsi_prenotati = Prenotazione.objects.filter(
             utente=request.user,
@@ -144,6 +144,17 @@ def mie_prenotazioni(request):
 @login_required
 def annulla_prenotazione(request, prenotazione_id):
 
+#Qui Django:
+
+#cerca nella tabella Prenotazione
+
+#la prenotazione con:
+
+#id = prenotazione_id
+
+#utente = utente loggato
+
+#Se non la trova → errore 404.
     prenotazione = get_object_or_404(
         Prenotazione,
         id=prenotazione_id,
@@ -187,7 +198,7 @@ def annulla_prenotazione(request, prenotazione_id):
 @login_required
 def modifica_profilo(request):
    
-    profilo, created = Profilo.objects.get_or_create(user=request.user)
+    profilo = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         form = ProfiloForm(request.POST, request.FILES, instance=profilo)
@@ -202,7 +213,7 @@ def modifica_profilo(request):
 @login_required
 def profilo(request):
 
-    profilo, created = Profilo.objects.get_or_create(user=request.user)
+    profilo, created = Profile.objects.get_or_create(user=request.user)
 
     if request.method == 'POST':
         form = ProfiloForm(request.POST, request.FILES, instance=profilo)

@@ -19,7 +19,7 @@
         <div class="mb-3">
           <strong>Benvenuta {{ user.username }}</strong> 
                <img src="{{ user.profilo.immagine_profilo.url }}" width="60" class="rounded-circle"> |
-<a href="{% url 'modifica_profilo' %}" class="btn btn-sm btn-outline-primary">Profilo</a> |
+<a href="{% url 'modifica_profilo' %}" class="btn btn-sm btn-outline-primary">Profile</a> |
 <a href="{% url 'mie_prenotazioni' %}" class="btn btn-sm btn-outline-secondary">Le mie prenotazioni</a> |
 <form method="post" action="{% url 'logout' %}" style="display:inline;">
     {% csrf_token %}

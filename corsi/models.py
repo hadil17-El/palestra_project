@@ -29,7 +29,7 @@ class Prenotazione(models.Model):
     
 
 
-class Profilo(models.Model):
+class Profile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     immagine_profilo = models.ImageField(
         upload_to='profili/'
@@ -39,18 +39,13 @@ class Profilo(models.Model):
         return self.user.username
 
 
-# Creazione automatica profilo quando si registra un utente
+
 @receiver(post_save, sender=User)
 def crea_profilo(sender, instance, created, **kwargs):
     if created:
-        Profilo.objects.create(user=instance)
+        Profile.objects.create(user=instance)
 
 
 @receiver(post_save, sender=User)
 def salva_profilo(sender, instance, **kwargs):
-    instance.profilo.save()
-#hadil17
-#Had_jed17
-
-##hadil(superuser)
-###hadil
+    instance.profile.save()
